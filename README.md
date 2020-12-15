@@ -1,6 +1,6 @@
 Microbenchmarks for experimental WasmGC-based Kotlin/Wasm compiler running in V8 against Kotlin/JS.
 
-Adapted from [Kotlin/Native project](Kotlin/Native project)
+Adapted from [Kotlin/Native project](https://github.com/JetBrains/kotlin-native/tree/master/performance/ring/src/main/kotlin/org/jetbrains/ring)
 
 # Run
 
