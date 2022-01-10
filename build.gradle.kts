@@ -5,15 +5,17 @@ import kotlin.math.sqrt
 
 
 val v8: String? by project
-val v8path = v8 ?: System.getProperty("user.home") + "/.jsvu/v8"
+val v8path = v8 ?: (System.getProperty("user.home") + "/.jsvu/v8")
 
 val jsBenchDataPath = "$buildDir/js_bench_data.txt"
 val jsBench by tasks.registering(Exec::class) {
     dependsOn(":js:compileProductionExecutableKotlinJs")
     executable(v8path)
+    setWorkingDir("$buildDir/js/packages/kotlin-wasm-benchmark-js/kotlin/")
     args(
         "--experimental-wasm-typed-funcref",
         "--experimental-wasm-gc",
+        "$buildDir/js/packages/kotlin-wasm-benchmark-js/kotlin/kotlin_kotlin.js",
         "$buildDir/js/packages/kotlin-wasm-benchmark-js/kotlin/kotlin-wasm-benchmark-js.js"
     )
 
@@ -26,11 +28,13 @@ val wasmBenchDataPath = "$buildDir/wasm_bench_data.txt"
 val wasmBench by tasks.registering(Exec::class) {
     dependsOn(":wasm:compileDevelopmentExecutableKotlinJs")
     executable(v8path)
+    setWorkingDir("$buildDir/js/packages/kotlin-wasm-benchmark-wasm/kotlin/")
     args(
         "--experimental-wasm-typed-funcref",
         "--experimental-wasm-gc",
         "--wasm-opt",
-        "$buildDir/js/packages/kotlin-wasm-benchmark-wasm/kotlin/kotlin-wasm-benchmark-wasm.js"
+        "--module",
+        "./kotlin-wasm-benchmark-wasm.js"
     )
     doFirst {
         standardOutput = java.io.FileOutputStream(wasmBenchDataPath)
@@ -44,7 +48,7 @@ class Table(
 ) {
     override fun toString(): String {
         val columnSizes: MutableList<Int> = MutableList(numColumns) { col ->
-            data.map { it[col].toString().length }.max() ?: 0
+            data.map { it[col].toString().length }.maxOrNull() ?: 0
         }
 
         return buildString {
@@ -55,14 +59,14 @@ class Table(
                         repeat(size + 2) { append('-') }
                         append("|")
                     }
-                    appendln()
+                    appendLine()
                 }
                 append("| ")
                 for ((el, size) in row.zip(columnSizes)) {
                     append(el.toString().padStart(size, ' '))
                     append(" | ")
                 }
-                appendln()
+                appendLine()
             }
         }
     }

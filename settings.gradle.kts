@@ -1,6 +1,6 @@
 pluginManagement {
     plugins {
-        id("org.jetbrains.kotlin.js") version "1.4.255-SNAPSHOT"
+        id("org.jetbrains.kotlin.js") version "1.6.255-SNAPSHOT"
     }
     resolutionStrategy {
     }
