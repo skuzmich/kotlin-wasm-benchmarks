@@ -2,31 +2,56 @@ import kotlin.math.exp
 import kotlin.math.ln
 import kotlin.math.pow
 import kotlin.math.sqrt
+import java.io.FileOutputStream
 
+plugins {
+    kotlin("multiplatform")
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+kotlin {
+    js(IR) {
+        nodejs()
+        binaries.executable()
+    }
+    wasm {
+        nodejs()
+        binaries.executable()
+    }
+    sourceSets {
+        val commonMain by getting {}
+        val jsMain by getting {}
+        val wasmMain by getting {}
+    }
+}
 
 val v8: String? by project
 val v8path = v8 ?: (System.getProperty("user.home") + "/.jsvu/v8")
 
 val jsBenchDataPath = "$buildDir/js_bench_data.txt"
 val jsBench by tasks.registering(Exec::class) {
-    dependsOn(":js:compileProductionExecutableKotlinJs")
+    dependsOn(":compileProductionExecutableKotlinJs")
     executable(v8path)
-    setWorkingDir("$buildDir/js/packages/kotlin-wasm-benchmark-js/kotlin/")
+    setWorkingDir("$buildDir/js/packages/kotlin-wasm-benchmark/kotlin/")
     args(
         "--experimental-wasm-typed-funcref",
         "--experimental-wasm-gc",
-        "$buildDir/js/packages/kotlin-wasm-benchmark-js/kotlin/kotlin_kotlin.js",
-        "$buildDir/js/packages/kotlin-wasm-benchmark-js/kotlin/kotlin-wasm-benchmark-js.js"
+        "./kotlin_kotlin.js",
+        "./kotlin-wasm-benchmark.js"
     )
 
     doFirst {
-        standardOutput = java.io.FileOutputStream(jsBenchDataPath)
+        standardOutput = FileOutputStream(jsBenchDataPath)
     }
 }
 
 val wasmBenchDataPath = "$buildDir/wasm_bench_data.txt"
 val wasmBench by tasks.registering(Exec::class) {
-    dependsOn(":wasm:compileDevelopmentExecutableKotlinJs")
+    dependsOn(":compileProductionExecutableKotlinWasm")
     executable(v8path)
     setWorkingDir("$buildDir/js/packages/kotlin-wasm-benchmark-wasm/kotlin/")
     args(
@@ -37,7 +62,7 @@ val wasmBench by tasks.registering(Exec::class) {
         "./kotlin-wasm-benchmark-wasm.js"
     )
     doFirst {
-        standardOutput = java.io.FileOutputStream(wasmBenchDataPath)
+        standardOutput = FileOutputStream(wasmBenchDataPath)
     }
 }
 

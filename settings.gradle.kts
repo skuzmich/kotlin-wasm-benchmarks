@@ -1,6 +1,6 @@
 pluginManagement {
     plugins {
-        id("org.jetbrains.kotlin.js") version "1.6.255-SNAPSHOT"
+        kotlin("multiplatform") version "1.6.255-SNAPSHOT"
     }
     resolutionStrategy {
     }
@@ -10,6 +10,3 @@ pluginManagement {
     }
 }
 rootProject.name = "kotlin-wasm-benchmark"
-
-include("js")
-include("wasm")
