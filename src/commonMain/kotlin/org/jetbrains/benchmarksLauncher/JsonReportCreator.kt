@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
-package org.jetbrains.ring
+package org.jetbrains.benchmarksLauncher
 
-const val BENCHMARK_SIZE = 100000
+import org.jetbrains.report.BenchmarkResult
+
+class JsonReportCreator(val data: Iterable<BenchmarkResult>) {
+    fun printJsonReport(jsonReport: String?): Unit {
+        val reportText = data.joinToString(prefix = "[", postfix = "]") {
+            it.toJson()
+        }
+        jsonReport?.let { writeToFile(it, reportText) } ?: print(reportText)
+    }
+}

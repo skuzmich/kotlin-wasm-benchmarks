@@ -16,16 +16,10 @@
 
 package org.jetbrains.ring
 
-import org.jetbrains.benchmarksLauncher.Blackhole
-
 open class CompanionObjectBenchmark {
     //Benchmark
     fun invokeRegularFunction() {
-        var x: Any = ""
-        repeat(BENCHMARK_SIZE) {
-            x = regularCompanionObjectFunction(x)
-        }
-        Blackhole.consume(x)
+        regularCompanionObjectFunction("")
     }
 
     companion object {

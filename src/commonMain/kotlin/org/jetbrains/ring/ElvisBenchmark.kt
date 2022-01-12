@@ -46,7 +46,7 @@ open class ElvisBenchmark {
 
     fun testCompositeElvis(): Int {
         var result = 0
-        for (i in 0..(BENCHMARK_SIZE))
+        for (i in 0..BENCHMARK_SIZE)
             result += check(Composite(Random.nextInt(), Composite(Random.nextInt(), null)))
         return result
     }

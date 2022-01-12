@@ -5,7 +5,7 @@
 
 package org.jetbrains.ring
 
-private const val RUNS = 2_000
+private const val RUNS = 2_000_000 /* TODO: JS perf problem */ / 100
 
 class CastsBenchmark {
     interface I0

@@ -25,13 +25,16 @@ package org.jetbrains.ring
  * but when we have a progression it's used directly with its iterator and so.
  */
 
+// TODO: Kotlin/JS perf problem
+val FIB_BENCHMARK_SIZE = BENCHMARK_SIZE / 10
+
 open class FibonacciBenchmark {
 
     //Benchmark
     fun calcClassic(): Long {
         var a = 1L
         var b = 2L
-        val size = BENCHMARK_SIZE
+        val size = FIB_BENCHMARK_SIZE
         for (i in 0..size-1) {
             val next = a + b
             a = b
@@ -46,7 +49,7 @@ open class FibonacciBenchmark {
         var a = 1L
         var b = 2L
         // Probably for with downTo is the reason of slowness
-        for (i in (BENCHMARK_SIZE) downTo 1) {
+        for (i in FIB_BENCHMARK_SIZE downTo 1) {
             val next = a + b
             a = b
             b = next
@@ -60,7 +63,7 @@ open class FibonacciBenchmark {
         var a = 1L
         var b = 2L
         // Probably for with step is the reason of slowness
-        for (i in 1..2*BENCHMARK_SIZE-1 step 2) {
+        for (i in 1..2*FIB_BENCHMARK_SIZE-1 step 2) {
             val next = a + b
             a = b
             b = next
@@ -73,7 +76,7 @@ open class FibonacciBenchmark {
         // This test works CRITICALLY slower compared with java equivalent (05.03.2015)
         var a = 1L
         var b = 2L
-        val s = BENCHMARK_SIZE.toLong() / 40L
+        val s = FIB_BENCHMARK_SIZE.toLong()
         val limit = s*s
         // Probably for with downTo is the reason of slowness
         for (i in limit downTo 1) {

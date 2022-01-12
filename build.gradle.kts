@@ -22,11 +22,6 @@ kotlin {
         nodejs()
         binaries.executable()
     }
-    sourceSets {
-        val commonMain by getting {}
-        val jsMain by getting {}
-        val wasmMain by getting {}
-    }
 }
 
 val v8: String? by project
@@ -43,9 +38,8 @@ val jsBench by tasks.registering(Exec::class) {
         "./kotlin_kotlin.js",
         "./kotlin-wasm-benchmark.js"
     )
-
     doFirst {
-        standardOutput = FileOutputStream(jsBenchDataPath)
+        standardOutput = FileOutputStream("$buildDir/jsReport2.json")
     }
 }
 
@@ -61,8 +55,9 @@ val wasmBench by tasks.registering(Exec::class) {
         "--module",
         "./kotlin-wasm-benchmark-wasm.js"
     )
+
     doFirst {
-        standardOutput = FileOutputStream(wasmBenchDataPath)
+        standardOutput = FileOutputStream("$buildDir/wasmReport2.json")
     }
 }
 

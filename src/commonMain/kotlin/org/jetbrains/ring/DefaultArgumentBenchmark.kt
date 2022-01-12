@@ -77,8 +77,6 @@ open class DefaultArgumentBenchmark {
     
     //Benchmark
     fun testEightOfEight() {
-        repeat(BENCHMARK_SIZE) {
-            sumEight(arg, arg, arg, arg, arg, it, arg, arg)
-        }
+        sumEight(arg, arg, arg, arg, arg, arg, arg, arg)
     }
 }
