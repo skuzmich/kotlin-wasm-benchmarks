@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@file:OptIn(ExperimentalCli::class)
 package org.jetbrains.benchmarksLauncher
 
 import org.jetbrains.report.BenchmarkResult
-//import kotlinx.cli.*
 
 data class RecordTimeMeasurement(
     val status: BenchmarkResult.Status,
     val iteration: Int,
     val warmupCount: Int,
-    val durationNs: Double)
+    val durationNs: Double
+)
 
 abstract class Launcher {
     abstract val benchmarks: BenchmarksCollection
@@ -80,18 +79,15 @@ abstract class Launcher {
         runBenchmark(benchmarkInstance, benchmark, numWarmIterations)
         val expectedDuration = /* ZZ: 1000L * */ 1_000_000 // 1s
         var autoEvaluatedNumberOfMeasureIteration = 1
-        println("ZZ: Bench: $name")
         if (benchmark.useAutoEvaluatedNumberOfMeasure) {
             val time = runBenchmark(benchmarkInstance, benchmark, 1)
-            println("ZZ: Time = $time, Expected = $expectedDuration")
-            if (time === 0L) {
+            if (time == 0L) {
                 autoEvaluatedNumberOfMeasureIteration = 10_000_000
             } else if (time < expectedDuration)
                 // Made auto evaluated number of measurements to be a multiple of 4.
                 // Loops which iteration number is a multiple of 4 execute optimally,
                 // because of different optimizations on processor (e.g. LSD)
                 autoEvaluatedNumberOfMeasureIteration = ((expectedDuration / time).toInt() / 4 + 1) * 4
-                println("ZZ: autoEvaluatedNumberOfMeasureIteration = $autoEvaluatedNumberOfMeasureIteration")
         }
         logger.log("Running benchmark $name ")
         for (k in 0.until(numberOfAttempts)) {
@@ -142,6 +138,7 @@ abstract class Launcher {
                         "$prefix$name", BenchmarkResult.Status.FAILED, 0.0,
                         BenchmarkResult.Metric.EXECUTION_TIME, 0.0, numberOfAttempts, numWarmIterations)
                 )
+                throw e
             }
         }
         return benchmarkResults
@@ -154,33 +151,15 @@ abstract class Launcher {
     }
 }
 
-abstract class BenchmarkArguments(/*argParser: ArgParser*/)
+abstract class BenchmarkArguments()
 
-//class BaseBenchmarkArguments(argParser: ArgParser): BenchmarkArguments(argParser) {
-//    val warmup by argParser.option(ArgType.Int, shortName = "w", description = "Number of warm up iterations")
-//            .default(20)
-//    val repeat by argParser.option(ArgType.Int, shortName = "r", description = "Number of each benchmark run").
-//            default(60)
-//    val prefix by argParser.option(ArgType.String, shortName = "p", description = "Prefix added to benchmark name")
-//            .default("")
-//    val output by argParser.option(ArgType.String, shortName = "o", description = "Output file")
-//    val filter by argParser.option(ArgType.String, shortName = "f", description = "Benchmark to run").multiple()
-//    val filterRegex by argParser.option(ArgType.String, shortName = "fr",
-//            description = "Benchmark to run, described by a regular expression").multiple()
-//    val verbose by argParser.option(ArgType.Boolean, shortName = "v", description = "Verbose mode of running")
-//            .default(false)
-//}
-
-class BaseBenchmarkArguments(/*argParser: ArgParser*/): BenchmarkArguments(/*argParser*/) {
-    val warmup: Int = 1 // 20
-    val repeat: Int = 1 // 60
-    val prefix: String = ""
-    val output: String = ""
+class BaseBenchmarkArguments(): BenchmarkArguments() {
+    val warmup: Int = 1
+    val repeat: Int = 1
     val filter: List<String> = emptyList()
     val filterRegex: List<String> = emptyList()
     val verbose: Boolean = false
 }
-
 
 object BenchmarksRunner {
     fun parse(args: Array<String>, benchmarksListAction: ()->Unit): BenchmarkArguments? {
@@ -189,7 +168,7 @@ object BenchmarksRunner {
 
     fun collect(results: List<BenchmarkResult>, arguments: BenchmarkArguments) {
         if (arguments is BaseBenchmarkArguments) {
-            JsonReportCreator(results).printJsonReport(arguments.output)
+            JsonReportCreator(results).printJsonReport()
         }
     }
 

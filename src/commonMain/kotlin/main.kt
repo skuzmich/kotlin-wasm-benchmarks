@@ -69,7 +69,7 @@ class RingLauncher : Launcher() {
                     "ClassStream.countFilteredManual" to BenchmarkEntryWithInit.create(::ClassStreamBenchmark, { countFilteredManual() }),
                     "ClassStream.countFiltered" to BenchmarkEntryWithInit.create(::ClassStreamBenchmark, { countFiltered() }),
                     "ClassStream.reduce" to BenchmarkEntryWithInit.create(::ClassStreamBenchmark, { reduce() }),
-                    "CompanionObject.invokeRegularFunction" to BenchmarkEntryWithInit.create(::CompanionObjectBenchmark, { invokeRegularFunction() }),
+//                    "CompanionObject.invokeRegularFunction" to BenchmarkEntryWithInit.create(::CompanionObjectBenchmark, { invokeRegularFunction() }),
 
 
                     "DefaultArgument.testOneOfTwo" to BenchmarkEntryWithInit.create(::DefaultArgumentBenchmark, { testOneOfTwo() }),
@@ -179,12 +179,12 @@ class RingLauncher : Launcher() {
                     "Loop.arrayForeachLoop" to BenchmarkEntryWithInit.create(::LoopBenchmark, { arrayForeachLoop() }),
                     "Loop.arrayListForeachLoop" to BenchmarkEntryWithInit.create(::LoopBenchmark, { arrayListForeachLoop() }),
                     "MatrixMap.add" to BenchmarkEntryWithInit.create(::MatrixMapBenchmark, { add() }),
-                    "ParameterNotNull.invokeOneArgWithNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeOneArgWithNullCheck() }),
-                    "ParameterNotNull.invokeOneArgWithoutNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeOneArgWithoutNullCheck() }),
-                    "ParameterNotNull.invokeTwoArgsWithNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeTwoArgsWithNullCheck() }),
-                    "ParameterNotNull.invokeTwoArgsWithoutNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeTwoArgsWithoutNullCheck() }),
-                    "ParameterNotNull.invokeEightArgsWithNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeEightArgsWithNullCheck() }),
-                    "ParameterNotNull.invokeEightArgsWithoutNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeEightArgsWithoutNullCheck() }),
+//                    "ParameterNotNull.invokeOneArgWithNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeOneArgWithNullCheck() }),
+//                    "ParameterNotNull.invokeOneArgWithoutNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeOneArgWithoutNullCheck() }),
+//                    "ParameterNotNull.invokeTwoArgsWithNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeTwoArgsWithNullCheck() }),
+//                    "ParameterNotNull.invokeTwoArgsWithoutNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeTwoArgsWithoutNullCheck() }),
+//                    "ParameterNotNull.invokeEightArgsWithNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeEightArgsWithNullCheck() }),
+//                    "ParameterNotNull.invokeEightArgsWithoutNullCheck" to BenchmarkEntryWithInit.create(::ParameterNotNullAssertionBenchmark, { invokeEightArgsWithoutNullCheck() }),
                     "PrimeList.calcDirect" to BenchmarkEntryWithInit.create(::PrimeListBenchmark, { calcDirect() }),
                     "PrimeList.calcEratosthenes" to BenchmarkEntryWithInit.create(::PrimeListBenchmark, { calcEratosthenes() }),
                     "Singleton.access" to BenchmarkEntryWithInit.create(::SingletonBenchmark, { access() }),
@@ -233,7 +233,7 @@ fun main(args: Array<String>) {
     val launcher = RingLauncher()
     BenchmarksRunner.runBenchmarks(args, { arguments: BenchmarkArguments ->
         if (arguments is BaseBenchmarkArguments) {
-            launcher.launch(arguments.warmup, arguments.repeat, arguments.prefix,
+            launcher.launch(arguments.warmup, arguments.repeat, prefix = "",
                     arguments.filter, arguments.filterRegex, arguments.verbose)
         } else emptyList()
     }, benchmarksListAction = launcher::benchmarksListAction)
