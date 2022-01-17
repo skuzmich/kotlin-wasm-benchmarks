@@ -16,8 +16,6 @@
 
 package org.jetbrains.benchmarksLauncher
 
-expect fun writeToFile(fileName: String, text: String)
-
 expect fun assert(value: Boolean)
 
 expect inline fun measureNanoTime(block: () -> Unit): Long
@@ -28,21 +26,28 @@ expect fun printStderr(message: String)
 
 expect fun currentTime(): String
 
-expect fun nanoTime(): Long
 
-expect class Blackhole {
+class Blackhole {
     companion object {
-        var consumer: Int
-        fun consume(value: Any)
+        var consumer = 0
+        fun consume(value: Any) {
+            consumer += value.hashCode()
+        }
     }
 }
 
-expect class Random() {
+class Random {
     companion object {
-        var seedInt: Int
-        fun nextInt(boundary: Int = 100): Int
+        var seedInt = 0
+        fun nextInt(boundary: Int = 100): Int {
+            seedInt = (3 * seedInt + 11) % boundary
+            return seedInt
+        }
 
-        var seedDouble: Double
-        fun nextDouble(boundary: Double = 100.0): Double
+        var seedDouble: Double = 0.1
+        fun nextDouble(boundary: Double = 100.0): Double {
+            seedDouble = (7.0 * seedDouble + 7.0) % boundary
+            return seedDouble
+        }
     }
 }

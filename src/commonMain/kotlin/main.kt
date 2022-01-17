@@ -16,7 +16,6 @@
 
 
 import org.jetbrains.ring.*
-import octoTest
 import org.jetbrains.benchmarksLauncher.*
 
 class RingLauncher : Launcher() {

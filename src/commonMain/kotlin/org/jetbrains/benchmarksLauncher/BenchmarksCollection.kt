@@ -16,8 +16,6 @@
 
 package org.jetbrains.benchmarksLauncher
 
-import org.jetbrains.report.BenchmarkResult
-
 interface AbstractBenchmarkEntry {
     open val useAutoEvaluatedNumberOfMeasure: Boolean
 }
