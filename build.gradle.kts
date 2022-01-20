@@ -38,7 +38,9 @@ val jsBench by tasks.registering(Exec::class) {
         "./kotlin_kotlin.js",
         "./kotlin-wasm-benchmark.js"
     )
-    standardOutput = FileOutputStream("$buildDir/jsReport.json")
+    doLast {
+        standardOutput = FileOutputStream("$buildDir/jsReport.json")
+    }
 }
 
 val wasmBench by tasks.registering(Exec::class) {
@@ -50,5 +52,7 @@ val wasmBench by tasks.registering(Exec::class) {
         "--module",
         "./kotlin-wasm-benchmark-wasm.js"
     )
-    standardOutput = FileOutputStream("$buildDir/wasmReport.json")
+    doLast {
+        standardOutput = FileOutputStream("$buildDir/wasmReport.json")
+    }
 }
