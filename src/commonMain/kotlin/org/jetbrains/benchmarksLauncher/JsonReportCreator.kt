@@ -18,10 +18,9 @@ package org.jetbrains.benchmarksLauncher
 
 import org.jetbrains.report.BenchmarkResult
 
-class JsonReportCreator(val data: Iterable<BenchmarkResult>) {
+class JsonReportCreator(val data: List<BenchmarkResult>) {
     fun printJsonReport() {
-        // TODO: Fill "env" and "kotlin" info
-        val reportText = """
+        println("""
             {
                 "env": {
                     "machine": {
@@ -41,9 +40,17 @@ class JsonReportCreator(val data: Iterable<BenchmarkResult>) {
                     }, 
                     "kotlinVersion": "undefined"
                 },
-                "benchmarks": [${data.joinToString { it.toJson() }}]
+                "benchmarks": ["""
+        )
+
+        data.forEachIndexed { index, el ->
+            var s = el.toJson()
+            if (index != data.lastIndex) {
+                s += ", "
             }
-        """.trimIndent()
-        println(reportText)
+            println(s)
+        }
+
+        println("]\n}")
     }
 }

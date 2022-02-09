@@ -154,8 +154,8 @@ abstract class Launcher {
 abstract class BenchmarkArguments()
 
 class BaseBenchmarkArguments(): BenchmarkArguments() {
-    val warmup: Int = 1
-    val repeat: Int = 1
+    val warmup: Int = 5
+    val repeat: Int = 5
     val filter: List<String> = emptyList()
     val filterRegex: List<String> = emptyList()
     val verbose: Boolean = false

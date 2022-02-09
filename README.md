@@ -11,5 +11,7 @@ Adapted from [Kotlin/Native project](https://github.com/JetBrains/kotlin-native/
 
 2. Get d8 shell. You can use  [JSVU](https://github.com/GoogleChromeLabs/jsvu) or [build it from sources]( https://v8.dev/docs/build)
 
-3. Run `./gradlew bench -Pv8=/path/to/d8`
+3. Get wasm-opt from https://github.com/WebAssembly/binaryen
+4. Run `./gradlew jsBench wasmBench wasmBenchOpt -Pv8=/path/to/d8 -PwasmOpt=/path/to/wasm-opt`
+5. Compare ./build/*.json results using [K/N benchmarks analyzer](https://github.com/JetBrains/kotlin/blob/0bd4dbc0c16899ec5a554895af57bd3a80cae760/kotlin-native/HACKING.md#performance-measurement) with flag -f
 
