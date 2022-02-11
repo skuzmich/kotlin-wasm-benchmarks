@@ -46,7 +46,7 @@ val jsBench by tasks.registering(Exec::class) {
     setWorkingDir("$buildDir/js/packages/kotlin-wasm-benchmark/kotlin/")
     args(
         *v8flags,
-        "./kotlin_kotlin.js",
+        "./kotlin-kotlin-stdlib-js-ir.js",
         "./kotlin-wasm-benchmark.js"
     )
     doFirst {
